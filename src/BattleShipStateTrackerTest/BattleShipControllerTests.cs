@@ -124,32 +124,6 @@ namespace BattleShipStateTrackerTest
         }
 
         [TestMethod]
-        public void TestAddShip_NotWithinBoard_ErrorResponse()
-        {
-            // Arrange
-            var boardsManager = new GameBoardsManager();
-            var battleShipController = new BattleShipController(boardsManager);
-            var result = battleShipController.AddBoard() as JsonResult;
-            var boardId = (result.Value as BoardResponse).BoardId;
-
-            // Act
-            var addShipResult = battleShipController.AddShip(new AddShipRequest()
-            {
-                BoardId = boardId,
-                HeadPosition =
-                    new BattleShipStateTracker.Request.Coordinate() { X = 5, Y = 10 },
-                TailPosition =
-                    new BattleShipStateTracker.Request.Coordinate() { X = 6, Y = 10 }
-            }) as JsonResult;
-
-            // Assert
-            Assert.IsNotNull(addShipResult);
-            Assert.AreEqual(StatusCodes.Status400BadRequest, addShipResult.StatusCode);
-            var value = addShipResult.Value as ErrorResponse;
-            Assert.IsNotNull(value);
-        }
-
-        [TestMethod]
         public void TestAddShip_PositionTaken_ErrorResponse()
         {
             // Arrange

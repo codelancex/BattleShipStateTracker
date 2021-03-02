@@ -75,8 +75,12 @@ namespace BattleShipStateTracker.Controllers
 
         /// <summary>
         /// Add a battle ship on the board
+        /// Note: This function won't handle the scenario that
+        /// the ship is partially or completely placed out of the board
+        /// because the request validation will fail the request before
+        /// entering this function.
         /// </summary>
-        /// <param name="request">POST boardToCheck body</param>
+        /// <param name="request">request body</param>
         /// <returns>Success or Error response</returns>
         [HttpPost]
         [Route("AddShip")]
@@ -111,17 +115,10 @@ namespace BattleShipStateTracker.Controllers
 
             if (result == Result.PositionsTaken)
             {
-                Logger.Error($"The ship {request.HeadPosition}, {request.TailPosition} can't be placed because positions have been taken by other ship.");
+                Logger.Error($"The ship {request.HeadPosition}, {request.TailPosition} can't be placed because some positions have been taken by other ship.");
 
                 return CreateErrorResponse(StatusCodes.Status400BadRequest,
-                    $"The ship {request.HeadPosition}, {request.TailPosition} can't be placed because positions have been taken by other ship");
-            }
-            else if (result == Result.NotWithinBoard) // Note: this condition won't be satisfied because of request validation
-            {
-                Logger.Error($"The ship {request.HeadPosition}, {request.TailPosition} is not completely within the board");
-
-                return CreateErrorResponse(StatusCodes.Status400BadRequest,
-                    $"The ship {request.HeadPosition}, {request.TailPosition} must be completely within the board");
+                    $"The ship {request.HeadPosition}, {request.TailPosition} can't be placed because some positions have been taken by other ship");
             }
 
             Logger.Info("The ship has been successfully added.");
@@ -131,8 +128,10 @@ namespace BattleShipStateTracker.Controllers
 
         /// <summary>
         /// Attack a position on the game board
+        /// Note: If the position with a ship on it has been attacked before,
+        /// Error response will be returned.
         /// </summary>
-        /// <param name="request">POST boardToCheck body</param>
+        /// <param name="request">request body</param>
         /// <returns>Return whether a ship is hit</returns>
         [HttpPost]
         [Route("Attack")]
