@@ -193,7 +193,7 @@
             <summary>
             Check if a position was attacked before.
             </summary>
-            <param name="coordinate">position to check</param>
+            <param name="position">position to check</param>
             <returns></returns>
         </member>
         <member name="M:BattleShipStateTracker.StateTracker.GameBoard.AddShip(BattleShipStateTracker.StateTracker.IShip)">
@@ -262,7 +262,7 @@
             <summary>
             
             </summary>
-            <param name="coordinate"></param>
+            <param name="position"></param>
             <returns></returns>
         </member>
         <member name="M:BattleShipStateTracker.StateTracker.IBoard.AddShip(BattleShipStateTracker.StateTracker.IShip)">

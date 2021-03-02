@@ -50,11 +50,11 @@ namespace BattleShipStateTracker.StateTracker
         /// <summary>
         /// Check if a position was attacked before.
         /// </summary>
-        /// <param name="coordinate">position to check</param>
+        /// <param name="position">position to check</param>
         /// <returns></returns>
-        public bool WasAttacked(Coordinate coordinate)
+        public bool WasAttacked(Coordinate position)
         {
-            return _attackMap[coordinate.X, coordinate.Y];
+            return _attackMap[position.X, position.Y];
         }
 
         /// <summary>
