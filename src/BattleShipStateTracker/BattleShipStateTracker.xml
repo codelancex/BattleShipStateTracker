@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BattleShipStateTracker</name>
+    </assembly>
+    <members>
+        <member name="T:BattleShipStateTracker.Controllers.BattleShipController">
+            <summary>
+            Controller that will handle incoming requests
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.Controllers.BattleShipController.#ctor(BattleShipStateTracker.StateTracker.IBoardsManager)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="boardsManager">Boards manager</param>
+        </member>
+        <member name="M:BattleShipStateTracker.Controllers.BattleShipController.GetBoards">
+            <summary>
+            Get all of the game boards
+            </summary>
+            <returns></returns>
+            <response code="200">All of the game boards returned.</response>
+        </member>
+        <member name="M:BattleShipStateTracker.Controllers.BattleShipController.AddBoard">
+            <summary>
+            Add a game board
+            </summary>
+            <returns>Game board ID for future references</returns>
+        </member>
+        <member name="M:BattleShipStateTracker.Controllers.BattleShipController.AddShip(BattleShipStateTracker.Request.AddShipRequest)">
+            <summary>
+            Add a battle ship on the board
+            </summary>
+            <param name="request">POST boardToCheck body</param>
+            <returns>Success or Error response</returns>
+        </member>
+        <member name="M:BattleShipStateTracker.Controllers.BattleShipController.Attack(BattleShipStateTracker.Request.AttackRequest)">
+            <summary>
+            Attack a position on the game board
+            </summary>
+            <param name="request">POST boardToCheck body</param>
+            <returns>Return whether a ship is hit</returns>
+        </member>
+        <member name="M:BattleShipStateTracker.Controllers.BattleShipController.AllShipsSink(BattleShipStateTracker.Request.BoardRequest)">
+            <summary>
+            Check if all ships sink
+            </summary>
+            <param name="boardToCheck">The board to check</param>
+            <returns>Return whether all ships sink</returns>
+        </member>
+        <member name="M:BattleShipStateTracker.Controllers.BattleShipController.DeleteBoard(BattleShipStateTracker.Request.BoardRequest)">
+            <summary>
+            Delete a board
+            </summary>
+            <param name="boardToDelete">The board to delete</param>
+            <returns>Success or Error response</returns>
+        </member>
+        <member name="T:BattleShipStateTracker.Request.AddShipRequest">
+            <summary>
+            AddShipRequest POST request body.
+            In the request, head and tail positions
+            are used for locating a ship on the board.
+            </summary>
+        </member>
+        <member name="P:BattleShipStateTracker.Request.AddShipRequest.BoardId">
+            <summary>
+            Board Id
+            </summary>
+        </member>
+        <member name="P:BattleShipStateTracker.Request.AddShipRequest.HeadPosition">
+            <summary>
+            Ship head position
+            </summary>
+        </member>
+        <member name="P:BattleShipStateTracker.Request.AddShipRequest.TailPosition">
+            <summary>
+            Ship tail position
+            </summary>
+        </member>
+        <member name="T:BattleShipStateTracker.Request.Coordinate">
+            <summary>
+            Coordinate used in the POST request.
+            X and Y need to be nullable to do the
+            Required validation
+            </summary>
+        </member>
+        <member name="P:BattleShipStateTracker.Request.Coordinate.X">
+            <summary>
+            X
+            </summary>
+        </member>
+        <member name="P:BattleShipStateTracker.Request.Coordinate.Y">
+            <summary>
+            Y
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.Request.Coordinate.ToString">
+            <summary>
+            ToString override
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BattleShipStateTracker.StateTracker.BattleShip">
+            <summary>
+            The BattleShip to be placed on the game board.
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.BattleShip.#ctor(BattleShipStateTracker.StateTracker.Coordinate,BattleShipStateTracker.StateTracker.Coordinate)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="head">head position</param>
+            <param name="tail">tail position</param>
+        </member>
+        <member name="P:BattleShipStateTracker.StateTracker.BattleShip.Head">
+            <summary>
+            Ship head position on the game board.
+            </summary>
+        </member>
+        <member name="P:BattleShipStateTracker.StateTracker.BattleShip.Tail">
+            <summary>
+            Ship tail position on the game board.
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.BattleShip.Hit">
+            <summary>
+            Hit the ship.
+            Note: The client code (i.e., GameBoard) will make sure a position is only hit once.
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.BattleShip.IsSink">
+            <summary>
+            Check whether the ship sinks
+            </summary>
+            <returns>Boolean value that indicate whether the ship sinks</returns>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.BattleShip.ToString">
+            <summary>
+            Object to string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BattleShipStateTracker.StateTracker.Coordinate">
+            <summary>
+            Coordinate
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.Coordinate.#ctor(System.UInt16,System.UInt16)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="x">x</param>
+            <param name="y">y</param>
+        </member>
+        <member name="P:BattleShipStateTracker.StateTracker.Coordinate.X">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BattleShipStateTracker.StateTracker.Coordinate.Y">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.Coordinate.Equals(System.Object)">
+            <summary>
+            Equal function
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.Coordinate.GetHashCode">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BattleShipStateTracker.StateTracker.GameBoard">
+            <summary>
+            Game board
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.GameBoard.Attack(BattleShipStateTracker.StateTracker.Coordinate)">
+            <summary>
+            Attack a position
+            </summary>
+            <param name="position">The position to attack</param>
+            <returns>Boolean value that indicates whether a ship is hit</returns>
+            <exception cref="T:System.Exception">The position has been attacked before</exception>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.GameBoard.WasAttacked(BattleShipStateTracker.StateTracker.Coordinate)">
+            <summary>
+            Check if a position was attacked before.
+            </summary>
+            <param name="coordinate">position to check</param>
+            <returns></returns>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.GameBoard.AddShip(BattleShipStateTracker.StateTracker.IShip)">
+            <summary>
+            Add a ship to the game board
+            </summary>
+            <param name="ship">ship</param>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.GameBoard.AllShipsSink">
+            <summary>
+            Check if all ships sink
+            </summary>
+            <returns>Boolean value that indicates if all ships sink</returns>
+        </member>
+        <member name="T:BattleShipStateTracker.StateTracker.GameBoardsManager">
+            <summary>
+            Game boards manager
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.GameBoardsManager.AddBoard(BattleShipStateTracker.StateTracker.IBoard)">
+            <summary>
+            Add a board
+            </summary>
+            <param name="board">The board to be added</param>
+            <returns>The board ID</returns>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.GameBoardsManager.BoardExist(System.String)">
+            <summary>
+            Check if a board exist
+            </summary>
+            <param name="id">Board ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.GameBoardsManager.DeleteBoard(System.String)">
+            <summary>
+            Delete a game board
+            </summary>
+            <param name="id">Board ID</param>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.GameBoardsManager.GetBoard(System.String)">
+            <summary>
+            Get board
+            </summary>
+            <param name="id">Board ID</param>
+            <returns>The board object</returns>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.GameBoardsManager.GetBoards">
+            <summary>
+            Get all of the boards
+            </summary>
+            <returns>All of the board keys</returns>
+        </member>
+        <member name="T:BattleShipStateTracker.StateTracker.IBoard">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.IBoard.Attack(BattleShipStateTracker.StateTracker.Coordinate)">
+            <summary>
+            
+            </summary>
+            <param name="position"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.IBoard.WasAttacked(BattleShipStateTracker.StateTracker.Coordinate)">
+            <summary>
+            
+            </summary>
+            <param name="coordinate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.IBoard.AddShip(BattleShipStateTracker.StateTracker.IShip)">
+            <summary>
+            
+            </summary>
+            <param name="ship"></param>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.IBoard.AllShipsSink">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BattleShipStateTracker.StateTracker.IShip">
+            <summary>
+            Ship interface
+            </summary>
+        </member>
+        <member name="P:BattleShipStateTracker.StateTracker.IShip.Head">
+            <summary>
+            Ship head position
+            </summary>
+        </member>
+        <member name="P:BattleShipStateTracker.StateTracker.IShip.Tail">
+            <summary>
+            Ship tail position
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.IShip.Hit">
+            <summary>
+            Hit the ship
+            </summary>
+        </member>
+        <member name="M:BattleShipStateTracker.StateTracker.IShip.IsSink">
+            <summary>
+            Check if the ship sinks
+            </summary>
+            <returns>Boolean value that indicates whether the ship sinks</returns>
+        </member>
+    </members>
+</doc>
