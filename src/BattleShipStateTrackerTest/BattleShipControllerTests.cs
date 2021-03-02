@@ -79,8 +79,6 @@ namespace BattleShipStateTrackerTest
             // Arrange
             var boardsManager = new GameBoardsManager();
             var battleShipController = new BattleShipController(boardsManager);
-            //var result = battleShipController.AddBoard() as JsonResult;
-            //var boardId = (result.Value as BoardResponse).BoardId;
 
             // Act
             var addShipResult = battleShipController.AddShip(new AddShipRequest()
@@ -159,16 +157,17 @@ namespace BattleShipStateTrackerTest
             var battleShipController = new BattleShipController(boardsManager);
             var result = battleShipController.AddBoard() as JsonResult;
             var boardId = (result.Value as BoardResponse).BoardId;
-            var addShipResult1 = battleShipController.AddShip(new AddShipRequest()
+            battleShipController.AddShip(new AddShipRequest()
             {
                 BoardId = boardId,
                 HeadPosition =
                     new BattleShipStateTracker.Request.Coordinate() { X = 5, Y = 6 },
                 TailPosition =
                     new BattleShipStateTracker.Request.Coordinate() { X = 6, Y = 6 }
-            }) as JsonResult;
+            });
 
-            var addShipResult2 = battleShipController.AddShip(new AddShipRequest()
+            // Act
+            var addShipResult = battleShipController.AddShip(new AddShipRequest()
             {
                 BoardId = boardId,
                 HeadPosition =
@@ -178,9 +177,9 @@ namespace BattleShipStateTrackerTest
             }) as JsonResult;
 
             // Assert
-            Assert.IsNotNull(addShipResult2);
-            Assert.AreEqual(StatusCodes.Status400BadRequest, addShipResult2.StatusCode);
-            var value = addShipResult2.Value as ErrorResponse;
+            Assert.IsNotNull(addShipResult);
+            Assert.AreEqual(StatusCodes.Status400BadRequest, addShipResult.StatusCode);
+            var value = addShipResult.Value as ErrorResponse;
             Assert.IsNotNull(value);
         }
 
@@ -190,8 +189,8 @@ namespace BattleShipStateTrackerTest
             // Arrange
             var boardsManager = new GameBoardsManager();
             var battleShipController = new BattleShipController(boardsManager);
-            //var result = battleShipController.AddBoard() as JsonResult;
-            //var boardId = (result.Value as BoardResponse).BoardId;
+
+            // Act
             var attackResult = battleShipController.Attack(new AttackRequest()
             {
                 BoardId = "fake id",
@@ -213,15 +212,16 @@ namespace BattleShipStateTrackerTest
             var battleShipController = new BattleShipController(boardsManager);
             var result = battleShipController.AddBoard() as JsonResult;
             var boardId = (result.Value as BoardResponse).BoardId;
-            var addShipResult = battleShipController.AddShip(new AddShipRequest()
+            battleShipController.AddShip(new AddShipRequest()
             {
                 BoardId = boardId,
                 HeadPosition =
                     new BattleShipStateTracker.Request.Coordinate() { X = 5, Y = 6 },
                 TailPosition =
                     new BattleShipStateTracker.Request.Coordinate() { X = 6, Y = 6 }
-            }) as JsonResult;
+            });
 
+            // Act
             var attackResult = battleShipController.Attack(new AttackRequest()
             {
                 BoardId = boardId,
@@ -233,6 +233,7 @@ namespace BattleShipStateTrackerTest
             Assert.AreEqual(StatusCodes.Status200OK, attackResult.StatusCode);
             var value = attackResult.Value as HitResponse;
             Assert.IsNotNull(value);
+            Assert.IsTrue(value.Hit);
         }
 
         [TestMethod]
@@ -243,14 +244,14 @@ namespace BattleShipStateTrackerTest
             var battleShipController = new BattleShipController(boardsManager);
             var result = battleShipController.AddBoard() as JsonResult;
             var boardId = (result.Value as BoardResponse).BoardId;
-            var addShipResult = battleShipController.AddShip(new AddShipRequest()
+            battleShipController.AddShip(new AddShipRequest()
             {
                 BoardId = boardId,
                 HeadPosition =
                     new BattleShipStateTracker.Request.Coordinate() { X = 5, Y = 6 },
                 TailPosition =
                     new BattleShipStateTracker.Request.Coordinate() { X = 6, Y = 6 }
-            }) as JsonResult;
+            });
 
              battleShipController.Attack(new AttackRequest()
             {
@@ -258,6 +259,7 @@ namespace BattleShipStateTrackerTest
                 Position = new BattleShipStateTracker.Request.Coordinate() { X = 5, Y = 6 }
             });
 
+            // Act
             var attackResult = battleShipController.Attack(new AttackRequest()
             {
                 BoardId = boardId,
@@ -269,6 +271,7 @@ namespace BattleShipStateTrackerTest
             Assert.AreEqual(StatusCodes.Status400BadRequest, attackResult.StatusCode);
             var value = attackResult.Value as ErrorResponse;
             Assert.IsNotNull(value);
+            Assert.AreEqual("The position (5,6) has been attacked before.", value.ErrorMessages[0]);
         }
 
         [TestMethod]
@@ -321,6 +324,7 @@ namespace BattleShipStateTrackerTest
                 Position = new BattleShipStateTracker.Request.Coordinate() { X = 7, Y = 6 }
             });
 
+            // Act
             var allShipsSinkResult = battleShipController.AllShipsSink(new BoardRequest()
             {
                 BoardId = boardId
@@ -331,6 +335,7 @@ namespace BattleShipStateTrackerTest
             Assert.AreEqual(StatusCodes.Status200OK, allShipsSinkResult.StatusCode);
             var value = allShipsSinkResult.Value as AllShipsSinkResponse;
             Assert.IsNotNull(value);
+            Assert.IsTrue(value.AllShipsSink);
         }
 
         [TestMethod]
@@ -339,9 +344,9 @@ namespace BattleShipStateTrackerTest
             // Arrange
             var boardsManager = new GameBoardsManager();
             var battleShipController = new BattleShipController(boardsManager);
-            var result = battleShipController.AddBoard() as JsonResult;
-            var boardId = (result.Value as BoardResponse).BoardId;
+            battleShipController.AddBoard();
 
+            // Act
             var allShipsSinkResult = battleShipController.AllShipsSink(new BoardRequest()
             {
                 BoardId = "fake id"
@@ -360,11 +365,10 @@ namespace BattleShipStateTrackerTest
             // Arrange
             var boardsManager = new GameBoardsManager();
             var battleShipController = new BattleShipController(boardsManager);
-
-            // Act
             var result = battleShipController.AddBoard() as JsonResult;
             var boardId = (result.Value as BoardResponse).BoardId;
 
+            // Act
             var deleteBoardResult = battleShipController.DeleteBoard(new BoardRequest()
             {
                 BoardId = boardId,
@@ -383,11 +387,9 @@ namespace BattleShipStateTrackerTest
             // Arrange
             var boardsManager = new GameBoardsManager();
             var battleShipController = new BattleShipController(boardsManager);
+            battleShipController.AddBoard();
 
             // Act
-            var result = battleShipController.AddBoard() as JsonResult;
-            //var boardId = (result.Value as BoardResponse).BoardId;
-
             var deleteBoardResult = battleShipController.DeleteBoard(new BoardRequest()
             {
                 BoardId = "fake id",
