@@ -54,16 +54,32 @@ namespace BattleShipStateTrackerTest
         }
 
         [TestMethod]
-        public void TestAddShip_PositionTaken_Failed()
+        public void TestAddShip_PositionTaken_Failed1()
         {
             // Arrange
             BattleShip ship1 = new BattleShip(new Coordinate(5, 7), new Coordinate(5, 3));
             var gameBoard = new GameBoard();
-            var result = gameBoard.AddShip(ship1);
+            gameBoard.AddShip(ship1);
             BattleShip ship2 = new BattleShip(new Coordinate(4, 6), new Coordinate(6, 6));
 
             // Act
-            result = gameBoard.AddShip(ship2);
+            var result = gameBoard.AddShip(ship2);
+
+            // Assert
+            Assert.AreEqual(Result.PositionsTaken, result);
+        }
+
+        [TestMethod]
+        public void TestAddShip_PositionTaken_Failed2()
+        {
+            // Arrange
+            BattleShip ship1 = new BattleShip(new Coordinate(4, 6), new Coordinate(6, 6));
+            var gameBoard = new GameBoard();
+            gameBoard.AddShip(ship1);
+            BattleShip ship2 = new BattleShip(new Coordinate(5, 7), new Coordinate(5, 3));
+
+            // Act
+            var result = gameBoard.AddShip(ship2);
 
             // Assert
             Assert.AreEqual(Result.PositionsTaken, result);
@@ -156,25 +172,5 @@ namespace BattleShipStateTrackerTest
             // Assert
             Assert.AreEqual(false, allShipsSink);
         }
-
-        //[TestMethod]
-        //public void TestAddShip_FaceNorthAndSizeTooBig_Failed()
-        //{
-        //    BattleShip ship = new BattleShip(new Coordinate(5, 5), Direction.North, 7);
-        //    var gameBoard = new GameBoard();
-
-        //    Assert.ThrowsException<Exception>(() => gameBoard.AddShip(ship));
-
-        //}
-
-        //[TestMethod]
-        //public void TestAddShip_FaceNorthAndHeadOutsideBoard_Failed()
-        //{
-        //    BattleShip ship = new BattleShip(new Coordinate(10, 10), Direction.North, 7);
-        //    var gameBoard = new GameBoard();
-
-        //    Assert.ThrowsException<Exception>(() => gameBoard.AddShip(ship));
-
-        //}
     }
 }
