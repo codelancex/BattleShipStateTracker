@@ -75,10 +75,6 @@ namespace BattleShipStateTracker.Controllers
 
         /// <summary>
         /// Add a battle ship on the board
-        /// Note: This function won't handle the scenario that
-        /// the ship is partially or completely placed out of the board
-        /// because the request validation will fail the request before
-        /// entering this function.
         /// </summary>
         /// <param name="request">request body</param>
         /// <returns>Success or Error response</returns>
@@ -89,6 +85,11 @@ namespace BattleShipStateTracker.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public IActionResult AddShip([FromBody]AddShipRequest request)
         {
+            // Note: This function won't handle the scenario that
+            // the ship is partially or completely placed out of the board
+            // because the request validation will fail the request before
+            // entering this function.
+
             Logger.Info("AddShip request received.");
             var board = _boardsManager.GetBoard(request.BoardId);
 
@@ -128,8 +129,6 @@ namespace BattleShipStateTracker.Controllers
 
         /// <summary>
         /// Attack a position on the game board
-        /// Note: If the position with a ship on it has been attacked before,
-        /// Error response will be returned.
         /// </summary>
         /// <param name="request">request body</param>
         /// <returns>Return whether a ship is hit</returns>
@@ -140,6 +139,9 @@ namespace BattleShipStateTracker.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public IActionResult Attack([FromBody] AttackRequest request)
         {
+            // Note: If the position with a ship on it has been attacked before,
+            // Error response will be returned.
+            
             Logger.Info("Attack request received.");
             var board = _boardsManager.GetBoard(request.BoardId);
 
