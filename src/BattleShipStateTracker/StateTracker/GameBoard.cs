@@ -117,7 +117,10 @@ namespace BattleShipStateTracker.StateTracker
         {
             if (ship.Head.X == ship.Tail.X)
             {
-                for (int i = ship.Head.Y; i <= ship.Tail.Y; i++)
+                var min = Math.Min(ship.Head.Y, ship.Tail.Y);
+                var max = Math.Max(ship.Head.Y, ship.Tail.Y);
+
+                for (int i = min; i <= max; i++)
                 {
                     if (_shipMap[ship.Head.X, i] != null)
                     {
@@ -127,7 +130,10 @@ namespace BattleShipStateTracker.StateTracker
             }
             else
             {
-                for (int i = ship.Head.X; i <= ship.Tail.X; i++)
+                var min = Math.Min(ship.Head.X, ship.Tail.X);
+                var max = Math.Max(ship.Head.X, ship.Tail.X);
+
+                for (int i = min; i <= max; i++)
                 {
                     if (_shipMap[i, ship.Head.Y] != null)
                     {
